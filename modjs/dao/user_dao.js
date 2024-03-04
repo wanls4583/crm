@@ -1,8 +1,7 @@
 var db = require('../db/db.js');
 module.exports = class DAO {
     constructor() {}
-    
-    getUserList(KHDMs) {
+    getUserList() {
         return db.query('select * from user');
     }
 }
