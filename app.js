@@ -53,7 +53,9 @@ app.use(session({
 }));
 
 app.use(function (req, res, next) {
-  if (req.originalUrl.indexOf('/crm_api/') == -1 && req.originalUrl.indexOf('/crm_h5/') == -1) {
+  if (req.originalUrl.startsWith('/crm_api/') == -1 &&
+    req.originalUrl.startsWith('/crm_h5/') == -1 &&
+    req.originalUrl !== '/favicon.ico') {
     res.send('404');
     return;
   }
@@ -61,6 +63,8 @@ app.use(function (req, res, next) {
     req.session.uid = req.session.uid || req.query.uid;
   }
   if (!req.session.uid &&
+    req.originalUrl !== '/favicon.ico' &&
+    !req.originalUrl.startsWith('/crm_h5/') &&
     !req.originalUrl.startsWith('/crm_api/user/login')) {
     res.redirect('/crm_h5/login.html');
   } else {
